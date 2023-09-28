@@ -1,43 +1,107 @@
-from flask import Flask, jsonify
-import random
+from flask import Flask, request, jsonify
+import schedule
 import time
+import threading
+import logging
 
-app = Flask(__name__)
+app = Flask("microservices")
 
-# Initial state of microservices
+# Initialize a dictionary to store microservice data
 microservices = {
-    "Service1": {"version": "1.0.0", "state": "healthy"},
-    "Service2": {"version": "1.0.0", "state": "healthy"},
-    # Add entries for other microservices
+    "AuthenticationService": {
+        "name": "Authentication Service",
+        "semVersion": "1.0.0",
+        "state": "healthy"
+    },
+    "PaymentGateway": {
+        "name": "Payment Gateway",
+        "semVersion": "2.1.0",
+        "state": "insecure"
+    },
+    "InventoryService": {
+        "name": "Inventory Service",
+        "semVersion": "1.0.0",
+        "state": "healthy"
+    },
+    "OrderProcessing": {
+        "name": "Order Processing",
+        "semVersion": "1.0.0",
+        "state": "healthy"
+    },
+    "UserManagement": {
+        "name": "User Management",
+        "semVersion": "1.0.0",
+        "state": "healthy"
+    },
+    "NotificationService": {
+        "name": "Notification Service",
+        "semVersion": "1.0.0",
+        "state": "healthy"
+    },
+    "AnalyticsEngine": {
+        "name": "Analytics Engine",
+        "semVersion": "1.0.0",
+        "state": "healthy"
+    },
+    "RecommendationSystem": {
+        "name": "Recommendation System",
+        "semVersion": "1.0.0",
+        "state": "healthy"
+    },
+    "SearchService": {
+        "name": "Search Service",
+        "semVersion": "1.0.0",
+        "state": "healthy"
+    },
+    "ContentDelivery": {
+        "name": "Content Delivery",
+        "semVersion": "1.0.0",
+        "state": "healthy"
+    }
 }
 
-@app.route('/microservices', methods=['GET'])
-def get_microservices():
-    return jsonify(microservices)
+# Function to increment the semVersion of each microservice
+def increment_sem_versions():
+    for service_name in microservices:
+        sem_version = microservices[service_name]["semVersion"]
+        major, minor, patch = map(int, sem_version.split("."))
+        minor += 1  # Increment minor version
+        new_sem_version = f"{major}.{minor}.{patch}"
+        microservices[service_name]["semVersion"] = new_sem_version
+        logging.info(f"semVersion incremented for {service_name}, the new semVersion is now {new_sem_version}")
 
-@app.route('/microservices/<service_name>', methods=['GET'])
-def get_microservice(service_name):
-    if service_name in microservices:
-        return jsonify(microservices[service_name])
-    else:
-        return jsonify({"error": "Microservice not found"}), 404
+# Schedule the increment_sem_versions function to run every 5 minutes
+schedule.every(1).minutes.do(increment_sem_versions)
 
-@app.route('/microservices/<service_name>/update', methods=['POST'])
-def update_microservice(service_name):
-    if service_name in microservices:
-        # Randomly increment the SemVer and change state
-        microservices[service_name]["version"] = increment_semver(microservices[service_name]["version"])
-        microservices[service_name]["state"] = random.choice(["healthy", "insecure", "slow"])
-        return jsonify(microservices[service_name])
-    else:
-        return jsonify({"error": "Microservice not found"}), 404
 
-def increment_semver(version):
-    # Implement your SemVer increment logic here
-    # For simplicity, increment the last digit
-    parts = version.split('.')
-    parts[-1] = str(int(parts[-1]) + 1)
-    return '.'.join(parts)
+# Configure logging
+logging.basicConfig(filename='pondpulse.log', level=logging.INFO, format='%(asctime)s - %(levelname)s: %(message)s')
 
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+# Create a background thread to run the scheduled tasks
+def run_scheduler():
+    while True:
+        schedule.run_pending()
+        time.sleep(1)
+
+scheduler_thread = threading.Thread(target=run_scheduler)
+scheduler_thread.start()
+
+@app.route('/microservices', methods=['GET', 'POST'])
+def manage_microservices():
+    if request.method == 'GET':
+        return jsonify(microservices)
+    elif request.method == 'POST':
+        data = request.get_json()
+        if data.get("service_name") in microservices:
+            service_name = data["service_name"]
+            if "state" in data:
+                microservices[service_name]["state"] = data["state"]
+            return jsonify({"message": f"Updated {service_name} details"})
+        else:
+            return jsonify({"error": "Service not found"}), 404
+
+@app.route('/')
+def my_func():
+    return "Welcome to the microservices management system"
+
+app.run(host="0.0.0.0", port=5001, debug=False)
