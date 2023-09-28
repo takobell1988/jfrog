@@ -1,0 +1,18 @@
+# templates/flytrap.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flytrap-deployment
+spec:
+  replicas: 1  # You can adjust the replica count as needed
+  selector:
+    matchLabels:
+      app: flytrap
+  template:
+    metadata:
+      labels:
+        app: flytrap
+    spec:
+      containers:
+        - name: flytrap
+          image: ofirtako.jfrog.io/docker-images/jfrog_flytrap:latest

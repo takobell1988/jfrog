@@ -1,0 +1,36 @@
+# templates/pondpulse.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pondpulse-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pondpulse
+  template:
+    metadata:
+      labels:
+        app: pondpulse
+    spec:
+      imagePullSecrets:
+      - name: my-jfrog-secret
+      containers:
+        - name: pondpulse
+          image: ofirtako.jfrog.io/docker-images/jfrog_pondpulse:latest
+          ports:
+            - containerPort: 5000
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pondpulse-service
+spec:
+  selector:
+    app: pondpulse
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 5000
+  type: ClusterIP

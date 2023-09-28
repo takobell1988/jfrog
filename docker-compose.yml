@@ -1,0 +1,16 @@
+version: '3'
+services:
+  pondpulse:
+    build: ./pondpulse
+    ports:
+      - "5000:5000"
+
+  flytrap:
+    build: ./flytrap
+    depends_on:
+      - pondpulse
+
+  postgribbit:
+    build: ./postgribbit
+    depends_on:
+      - pondpulse

@@ -1,0 +1,18 @@
+# templates/postgribbit.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgribbit-deployment
+spec:
+  replicas: 1  # You can adjust the replica count as needed
+  selector:
+    matchLabels:
+      app: postgribbit
+  template:
+    metadata:
+      labels:
+        app: postgribbit
+    spec:
+      containers:
+        - name: postgribbit
+          image: ofirtako.jfrog.io/docker-images/jfrog_postgribbit:latest
