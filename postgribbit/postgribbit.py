@@ -13,17 +13,17 @@ app = Flask(__name__)
 logging.basicConfig(filename='app.log', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 pondpulse_url = os.environ['pondpulse_url']
-# postgres_user = os.environ['POSTGRES_USER']
-# postgres_pass = os.environ['POSTGRES_PASSWORD']
-# postgres_dbname = os.environ['db_name']
+postgres_user = os.environ['POSTGRES_USER']
+postgres_pass = os.environ['POSTGRES_PASSWORD']
+postgres_dbname = os.environ['db_name']
 # postgres_port = os.environ['db_port']
 
 
 # PostgreSQL database configuration
 db_config = {
-    'dbname': 'mydb',
-    'user': 'dbuser',
-    'password': 'dbsecretpassword',
+    'dbname': postgres_dbname,
+    'user': postgres_user,
+    'password': postgres_pass,
     'host': 'postgresql-service',
     'port': 5432
 }
