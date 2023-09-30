@@ -14,7 +14,7 @@ RUN pip install -r requirements.txt
 EXPOSE 80
 
 # Define environment variable
-ENV NAME World
+#ENV NAME World
 
 # Run pondpulse.py (or the appropriate script)
 CMD ["python", "pondpulse.py"]

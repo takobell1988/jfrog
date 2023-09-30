@@ -3,6 +3,7 @@ import schedule
 import time
 import threading
 import logging
+import sys
 
 app = Flask("microservices")
 
@@ -36,7 +37,7 @@ microservices = {
     "NotificationService": {
         "name": "Notification Service",
         "semVersion": "1.0.0",
-        "state": "healthy"
+        "state": "slow"
     },
     "AnalyticsEngine": {
         "name": "Analytics Engine",
@@ -68,14 +69,14 @@ def increment_sem_versions():
         minor += 1  # Increment minor version
         new_sem_version = f"{major}.{minor}.{patch}"
         microservices[service_name]["semVersion"] = new_sem_version
-        logging.info(f"semVersion incremented for {service_name}, the new semVersion is now {new_sem_version}")
+        print(f"semVersion incremented for {service_name}, the new semVersion is now {new_sem_version}", file=sys.stdout)
 
 # Schedule the increment_sem_versions function to run every 5 minutes
 schedule.every(1).minutes.do(increment_sem_versions)
 
 
 # Configure logging
-logging.basicConfig(filename='pondpulse.log', level=logging.INFO, format='%(asctime)s - %(levelname)s: %(message)s')
+#logging.basicConfig(filename='pondpulse.log', level=logging.INFO, format='%(asctime)s - %(levelname)s: %(message)s')
 
 # Create a background thread to run the scheduled tasks
 def run_scheduler():
@@ -92,8 +93,8 @@ def manage_microservices():
         return jsonify(microservices)
     elif request.method == 'POST':
         data = request.get_json()
-        if data.get("service_name") in microservices:
-            service_name = data["service_name"]
+        if data.get("name") in microservices:
+            service_name = data["name"]
             if "state" in data:
                 microservices[service_name]["state"] = data["state"]
             return jsonify({"message": f"Updated {service_name} details"})

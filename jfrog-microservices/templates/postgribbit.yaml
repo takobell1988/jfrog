@@ -4,7 +4,7 @@ kind: Deployment
 metadata:
   name: postgribbit-deployment
 spec:
-  replicas: 1  # You can adjust the replica count as needed
+  replicas: 1  
   selector:
     matchLabels:
       app: postgribbit
@@ -16,3 +16,46 @@ spec:
       containers:
         - name: postgribbit
           image: ofirtako.jfrog.io/docker-images/jfrog_postgribbit:latest
+          env:
+            # - name: POSTGRES_USER
+            #   valueFrom:
+            #     secretKeyRef:
+            #       name: postgres-secret
+            #       key: username
+            # - name: POSTGRES_PASSWORD
+            #   valueFrom:
+            #     secretKeyRef:
+            #       name: postgres-secret
+            #       key: password
+          envFrom:
+            - configMapRef:
+               name: envvars
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgribbit-service
+spec:
+  selector:
+    app: postgribbit
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 5002
+  type: ClusterIP
+
+---
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: postgribbit
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: postgribbit
+  minReplicas: 1
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 300

@@ -4,7 +4,7 @@ kind: Deployment
 metadata:
   name: flytrap-deployment
 spec:
-  replicas: 1  # You can adjust the replica count as needed
+  replicas: 1 
   selector:
     matchLabels:
       app: flytrap
@@ -16,3 +16,33 @@ spec:
       containers:
         - name: flytrap
           image: ofirtako.jfrog.io/docker-images/jfrog_flytrap:latest
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: flytrap-service
+spec:
+  selector:
+    app: flytrap
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 5003
+  type: ClusterIP
+
+---
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: flytrap
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: flytrap
+  minReplicas: 1
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 300
+
+
