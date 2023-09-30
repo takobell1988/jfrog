@@ -7,6 +7,11 @@ import sys
 
 app = Flask("microservices")
 
+# Configure logging
+logging.basicConfig(filename='app.log', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+app.logger.addHandler(logging.StreamHandler())
+app.logger.setLevel(logging.DEBUG)
+
 # Initialize a dictionary to store microservice data
 microservices = {
     "AuthenticationService": {
@@ -69,7 +74,7 @@ def increment_sem_versions():
         minor += 1  # Increment minor version
         new_sem_version = f"{major}.{minor}.{patch}"
         microservices[service_name]["semVersion"] = new_sem_version
-        print(f"semVersion incremented for {service_name}, the new semVersion is now {new_sem_version}", file=sys.stdout)
+        app.logger.info(f"semVersion incremented for {service_name}, the new semVersion is now {new_sem_version}")
 
 # Schedule the increment_sem_versions function to run every 5 minutes
 schedule.every(1).minutes.do(increment_sem_versions)

@@ -9,7 +9,8 @@ app = Flask(__name__)
 
 # Configure logging
 logging.basicConfig(filename='app.log', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-logger = logging.getLogger(__name__)
+app.logger.addHandler(logging.StreamHandler())
+app.logger.setLevel(logging.DEBUG)
 
 
 # Function to fetch data and store it in the database
@@ -18,11 +19,10 @@ def fetch_and_store_data():
         # Fetch data from the microservices URL
         response = requests.get("http://pondpulse-service/microservices")
         data = json.loads(response.text)
-        logging.info(data)
+        app.logger.info(data)
 
         # Log when data is fetched
-        logger.info("Data fetched successfully.")
-        logging.info("Data fetched successfully.")
+        app.logger.info("Data fetched successfully.")
 
         
         for service_name, service_info in data.items():
@@ -32,7 +32,8 @@ def fetch_and_store_data():
             # Check and update state to "insecure" for versions 1.0.1 to 1.0.3
             if major == 1 and minor == 0 and 1 <= patch <= 3:
                 if service_info["state"] != "insecure":
-                    logging.info(f"Changing state of {service_name} to insecure.")
+                    app.logger.info(f"Changing state of {service_name} to insecure.")
+                    app.logger.info(f"Changing state of {service_name} to insecure.")
                     service_info["state"] = "insecure"
                     
                     # Send a POST request to PondPulse to update its state to "insecure"
@@ -40,15 +41,17 @@ def fetch_and_store_data():
                     response = requests.post('http://pondpulse-service/microservices', json=update_data)
                     if response.status_code == 200:
                         # Log when data is posted to the pondpulse-service
-                        logging.info(f"State change of {service_name} to insecure successful.")
-                        logging.info("Data posted to the 'http://pondpulse-service/microservices' successfully.")
+                        app.logger.info(f"State change of {service_name} to insecure successful.")
+                        app.logger.info("Data posted to the 'http://pondpulse-service/microservices' successfully.")
+                        
+                        
                     else:
-                        logging.error(f"Failed to update state of {service_name} to insecure.")
+                        app.logger.error(f"Failed to update state of {service_name} to insecure.")
             
             # Check and update state to "slow" for versions 1.1.0 to 1.1.3
             elif major == 1 and minor == 1 and 0 <= patch <= 3:
                 if service_info["state"] != "slow":
-                    logging.info(f"Changing state of {service_name} to slow.")
+                    app.logger.error(f"Failed to update state of {service_name} to insecure.")
                     service_info["state"] = "slow"
                     
                     # Send a POST request to PondPulse to update its state to "slow"
@@ -56,14 +59,14 @@ def fetch_and_store_data():
                     response = requests.post('http://pondpulse-service/microservices', json=update_data)
                     if response.status_code == 200:
                         # Log when data is posted to the pondpulse-service
-                        logging.info(f"State change of {service_name} to slow successful.")
-                        logging.info("Data posted to the 'http://pondpulse-service/microservices' successfully.")
+                        app.logger.info(f"State change of {service_name} to slow successful.")
+                        app.logger.info("Data posted to the 'http://pondpulse-service/microservices' successfully.")
                     else:
-                        logging.error(f"Failed to update state of {service_name} to slow.")
+                        app.logger.error(f"Failed to update state of {service_name} to slow.")
 
 
     except Exception as e:
-        logging.error(f"Error: {e}")
+        app.logger.error(f"Error: {e}")
 
 # Function to periodically fetch and store data
 def periodic_task():
