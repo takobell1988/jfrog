@@ -4,6 +4,7 @@ import psycopg2
 import logging
 import threading
 import time
+import os
 from flask import Flask
 
 app = Flask(__name__)
@@ -11,7 +12,7 @@ app = Flask(__name__)
 # Configure logging
 logging.basicConfig(filename='app.log', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
-#pondpulse_url = os.environ['pondpulse_url']
+pondpulse_url = os.environ['pondpulse_url']
 # postgres_user = os.environ['POSTGRES_USER']
 # postgres_pass = os.environ['POSTGRES_PASSWORD']
 # postgres_dbname = os.environ['db_name']
@@ -31,7 +32,7 @@ db_config = {
 def fetch_and_store_data():
     try:
         # Fetch data from the microservices URL
-        response = requests.get("http://pondpulse-service/microservices")
+        response = requests.get(pondpulse_url)
         data = json.loads(response.text)
         logging.info(data)
 
