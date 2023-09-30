@@ -1,6 +1,13 @@
 ### usefull commands ###
 
-check the db: 
+
+
+helm install from jfrog helm artifact:
+
+helm install jfrog-microservices helm-repo-helm/jfrog-microservices
+
+
+check the db contents: 
 
 kubectl exec -it <postgresql-pod-name>  --  bash
 
