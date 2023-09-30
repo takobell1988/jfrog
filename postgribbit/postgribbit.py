@@ -11,6 +11,8 @@ app = Flask(__name__)
 
 # Configure logging
 logging.basicConfig(filename='app.log', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+app.logger.addHandler(logging.StreamHandler())
+app.logger.setLevel(logging.DEBUG)
 
 pondpulse_url = os.environ['pondpulse_url']
 postgres_user = os.environ['POSTGRES_USER']
@@ -34,14 +36,14 @@ def fetch_and_store_data():
         # Fetch data from the microservices URL
         response = requests.get(pondpulse_url)
         data = json.loads(response.text)
-        logging.info(data)
+        app.logger.info(data)
 
         # Log when data is fetched
-        logging.info("Data fetched successfully.")
+        app.logger.info('Data fetched successfully.')
 
         # Filter out unhealthy services
         filtered_data = {key: value for key, value in data.items() if value['state'] != 'healthy'}
-        logging.info(f"Filtered data is: {filtered_data}")
+        app.logger.info(f"Filtered data is: {filtered_data}")
 
         # Connect to PostgreSQL database
         connection = psycopg2.connect(**db_config)
@@ -70,10 +72,11 @@ def fetch_and_store_data():
         connection.close()
 
         # Log when data is posted to the database
-        logging.info("Data posted to the database successfully.")
+        app.logger.info("Data posted to the database successfully.")
+        
 
     except Exception as e:
-        logging.error(f"Error: {e}")
+        app.logger.info(f"Error: {e}")
 
 # Function to periodically fetch and store data
 def periodic_task():
