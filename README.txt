@@ -1,18 +1,21 @@
 ! ### WELCOME TO MY JFROG SERVICES APP ### !
 
-The purpose of the application is: to identify faulty versions of our services in our company.
+The purpose of the application is: 
+TO IDENTIFY FAULTY VERSIONS IN OUR COMPANY, AND RECORD THEM IN THE DB.
 
-The main table of services is displayed by the microservice called "pondpulse", the number of the service version increases every one minute.
 
-When the "flytrap" application will run every 30 seconds - it will check whether faulty versions are displayed in the pondpulse table.
+The main table of services is displayed by the microservice called "pondpulse", which increments the services version every minute.
+
+The "flytrap" application checks the pondpulse table every 30 seconds for any faulty versions.
+
 
 ** faulty versions are ** :
 
-"slow" for versions 1.1.0 to 1.1.3
-"insecure" for versions 1.0.1 to 1.0.3
+versions 1.1.0 to 1.1.3 - are "SLOW"
+versions 1.0.1 to 1.0.3 - are "INSECURE"
 
 
-The "flytrap" app will send a POST request to the "pondpules" microservice in order to change the state of the service to "insecure" / "slow".
+A POST request will be sent to the "pondpules" microservice by the "flytrap" app to change the service state to "insecure" / "slow".
 
 
 The purpose of the "postgribbit" microservice is to "fetch" the service table from the "pondpulse" application,
@@ -57,7 +60,7 @@ Thats it !
 ### USFULE COMMANDS ###
 
 
-You can check the logs of each microservice by running:
+cheking the logs of each microservice can be done by running:
 
 kubectl logs -f <pod-name>
 
