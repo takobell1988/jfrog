@@ -81,7 +81,7 @@ kubectl exec -it <postgresql-pod-name> -n <namespace-name> --  bash
 
 login to the DB : 
 
-psql -U dbuser -d mydb -h localhost
+psql -U <user> -d mydb -h localhost
 
 
 Select all rows in the table "faulty_versions" : 
@@ -92,9 +92,13 @@ SELECT * FROM faulty_versions;
 
 THANK YOU FOR CHECKING OUT MY APP!
 
+The architacture diagram of the app and the helm charts can be found in the git repo :
+
+https://github.com/takobell1988/jfrog/blob/master/services_app_architacture.png
+
 ** PLEASE CONTACT ME IF YOU HAVE ANY QUESTIONS OR CONSIDERATIONS ABOUT HOW TO INSTALL OR CHECK THE APP **
 It would be my pleasure to demonstrate it in a Zoom meeting!
 
 
-The architacture diagram of the app can be found in the git repo :
+
 
