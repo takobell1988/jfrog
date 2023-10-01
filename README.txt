@@ -26,6 +26,10 @@ and if it detects a any faulty version - it will register the service and its ve
 
 #### INSTALLETION INSTRUCTIONS ####
 
+prerequisits : 
+
+Up and runnig k8s cluster with internet connection, minikube / docker k8s
+
 1.
 
 To install all microservices, you'll need to add the following jfrog helm repo to your local helm repos by runnig the commands below: 
@@ -46,9 +50,12 @@ helm repo list
 
 Once you validate the repo exist in your local repos , run the following command to install it :
 
-helm install my-app helm-repo-helm/jfrog-services-app
+helm install my-app helm-repo-helm/jfrog-services-app -n <namespace-name>
 
 4.
+to check the pods status : 
+
+kubectl get po -n <namespace-name>
 
 Please be patient and Wait untill all pods are up and running.
 
@@ -69,7 +76,7 @@ You also can connect to Postgresql DB and check the table DB contents by running
 
 access the DB pod:
 
-kubectl exec -it <postgresql-pod-name>  --  bash
+kubectl exec -it <postgresql-pod-name> -n <namespace-name> --  bash
 
 
 login to the DB : 
@@ -87,3 +94,7 @@ THANK YOU FOR CHECKING OUT MY APP!
 
 ** PLEASE CONTACT ME IF YOU HAVE ANY QUESTIONS OR CONSIDERATIONS ABOUT HOW TO INSTALL OR CHECK THE APP **
 It would be my pleasure to demonstrate it in a Zoom meeting!
+
+
+The architacture diagram of the app can be found in the git repo :
+
