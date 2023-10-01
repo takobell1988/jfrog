@@ -96,6 +96,9 @@ The architacture diagram of the app and the helm charts can be found in the git 
 
 https://github.com/takobell1988/jfrog/blob/master/services_app_architacture.png
 
+The packged main chart is stores in jfrog artifactory:
+https://ofirtako.jfrog.io/artifactory/helm-repo-helm/jfrog-services-app-0.1.0.tgz
+
 ** PLEASE CONTACT ME IF YOU HAVE ANY QUESTIONS OR CONSIDERATIONS ABOUT HOW TO INSTALL OR CHECK THE APP **
 It would be my pleasure to demonstrate it in a Zoom meeting!
 
