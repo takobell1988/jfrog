@@ -64,7 +64,7 @@ Thats it !
 
 
 
-### USFULE COMMANDS ###
+### USEFUL COMMANDS ###
 
 
 cheking the logs of each microservice can be done by running:
