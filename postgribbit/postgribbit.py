@@ -18,6 +18,7 @@ pondpulse_url = os.environ['pondpulse_url']
 postgres_user = os.environ['POSTGRES_USER']
 postgres_pass = os.environ['POSTGRES_PASSWORD']
 postgres_dbname = os.environ['db_name']
+postgres_host = os.environ['POSTGRES_HOST']
 # postgres_port = os.environ['db_port']
 
 
@@ -26,7 +27,7 @@ db_config = {
     'dbname': postgres_dbname,
     'user': postgres_user,
     'password': postgres_pass,
-    'host': 'postgresql-service',
+    'host': postgres_host,
     'port': 5432
 }
 

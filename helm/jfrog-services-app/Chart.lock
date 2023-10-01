@@ -1,0 +1,15 @@
+dependencies:
+- name: postgresql
+  repository: https://ofirtako.jfrog.io/artifactory/helm-repo-helm/postgresql-13.0.0.tgz
+  version: 13.0.0
+- name: pondpulse
+  repository: https://ofirtako.jfrog.io/artifactory/helm-repo-helm/pondpulse-0.1.0.tgz
+  version: 0.1.0
+- name: flytrap
+  repository: https://ofirtako.jfrog.io/artifactory/helm-repo-helm/flytrap-0.1.0.tgz
+  version: 0.1.0
+- name: postgribbit
+  repository: https://ofirtako.jfrog.io/artifactory/helm-repo-helm/postgribbit-0.1.0.tgz
+  version: 0.1.0
+digest: sha256:9799546822acd3ea15e78210086d9819c8628424c4d49d55b5d5dc39bc0a1d97
+generated: "2023-10-01T13:49:02.305091+03:00"

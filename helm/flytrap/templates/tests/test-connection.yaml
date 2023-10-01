@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "flytrap.fullname" . }}-test-connection"
+  labels:
+    {{- include "flytrap.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['{{ include "flytrap.fullname" . }}:{{ .Values.service.port }}']
+  restartPolicy: Never

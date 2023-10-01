@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "postgribbit.fullname" . }}-test-connection"
+  labels:
+    {{- include "postgribbit.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['{{ include "postgribbit.fullname" . }}:{{ .Values.service.port }}']
+  restartPolicy: Never
