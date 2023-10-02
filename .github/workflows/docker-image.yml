@@ -19,7 +19,7 @@ jobs:
       - name: Build and Push Pondpulse Docker Image
         working-directory: pondpulse
         env:
-          DOCKER_REGISTRY: https://ofirtako.jfrog.io/artifactory/docker-images/jfrog_pondpulse/
+          DOCKER_REGISTRY: https://ofirtako.jfrog.io/artifactory/docker-images/jfrog_pondpulse
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         run: |
@@ -30,7 +30,7 @@ jobs:
       - name: Build and Push Flytrap Docker Image
         working-directory: flytrap
         env:
-          DOCKER_REGISTRY: https://ofirtako.jfrog.io/artifactory/docker-images/jfrog_flytrap/
+          DOCKER_REGISTRY: https://ofirtako.jfrog.io/artifactory/docker-images/jfrog_flytrap
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         run: |
@@ -41,7 +41,7 @@ jobs:
       - name: Build and Push Postgribbit Docker Image
         working-directory: postgribbit
         env:
-          DOCKER_REGISTRY: https://ofirtako.jfrog.io/artifactory/docker-images/jfrog_postgribbit/
+          DOCKER_REGISTRY: https://ofirtako.jfrog.io/artifactory/docker-images/jfrog_postgribbit
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         run: |
