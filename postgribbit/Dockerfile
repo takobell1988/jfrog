@@ -15,7 +15,7 @@ RUN pip install -r requirements.txt
 EXPOSE 80
 
 # Define environment variable
-ENV NAME World
+ENV NAME test
 
 # Run postgribbit.py (or the appropriate script)
 CMD ["python", "postgribbit.py"]
