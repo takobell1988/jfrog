@@ -53,6 +53,9 @@ Once you validate the repo exist in your local repos , run the following command
 helm install my-app helm-repo-helm/jfrog-services-app -n <namespace-name>
 
 4.
+
+** NOTICE THAT PODS ARE PULLED AND RUN FROM JFROG DOCKER ARTIFACTORY **
+
 to check the pods status : 
 
 kubectl get po -n <namespace-name>
@@ -103,6 +106,12 @@ https://github.com/takobell1988/jfrog/blob/master/services_app_architacture.png
 
 The packged main helm chart is stored in jfrog artifactory:
 https://ofirtako.jfrog.io/artifactory/helm-repo-helm/jfrog-services-app-0.1.0.tgz
+
+
+The CI is configured in github actions , the file for the CI configuration located in the git repo:
+
+https://github.com/takobell1988/jfrog/blob/master/.github/workflows/docker-image.yml
+
 
 
 ** PLEASE CONTACT ME IF YOU HAVE ANY QUESTIONS OR CONSIDERATIONS ABOUT HOW TO INSTALL OR CHECK THE APP **
