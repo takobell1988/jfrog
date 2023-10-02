@@ -90,7 +90,7 @@ SELECT * FROM faulty_versions;
 
 Metrics-server can be installed using the following command:
 
-kubectl apply -f https://github.com/takobell1988/jfrog/blob/master/metrics-server.yaml
+kubectl apply -f https://raw.githubusercontent.com/\takobell1988/\jfrog/\master/\metrics-server.yaml
 
 
 
